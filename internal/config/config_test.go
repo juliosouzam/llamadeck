@@ -28,7 +28,7 @@ func TestProfileArgs(t *testing.T) {
 		}
 	}
 	if strings.Contains(got, "--swa-full") {
-		t.Errorf("parametro desmarcado vazou: %s", got)
+		t.Errorf("parâmetro desmarcado vazou: %s", got)
 	}
 	if !strings.HasPrefix(got, "-hf ") {
 		t.Errorf("o modelo deve vir primeiro: %s", got)
@@ -58,7 +58,7 @@ func TestEndpoint(t *testing.T) {
 	}
 	p.Params["host"] = ParamValue{Enabled: true, Value: "/tmp/llama.sock"}
 	if got := p.Endpoint(); got != "" {
-		t.Errorf("socket unix nao tem endpoint http, veio %q", got)
+		t.Errorf("socket unix não tem endpoint http, veio %q", got)
 	}
 }
 

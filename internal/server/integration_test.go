@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// TestRealLlamaServer sobe o llama-server de verdade. Precisa do binario no PATH
+// TestRealLlamaServer sobe o llama-server de verdade. Precisa do binário no PATH
 // e de um GGUF pequeno:
 //
 //	LLAMADECK_E2E=1 LLAMADECK_E2E_MODEL=/caminho/modelo.gguf go test ./internal/server -run RealLlama -v
@@ -19,7 +19,7 @@ func TestRealLlamaServer(t *testing.T) {
 	}
 	bin, err := exec.LookPath("llama-server")
 	if err != nil {
-		t.Skipf("llama-server nao encontrado: %v", err)
+		t.Skipf("llama-server não encontrado: %v", err)
 	}
 	model := os.Getenv("LLAMADECK_E2E_MODEL")
 	if model == "" {
@@ -41,7 +41,7 @@ func TestRealLlamaServer(t *testing.T) {
 
 	st := waitFor(t, m, StatusRunning, 90*time.Second)
 	if st.PID == 0 {
-		t.Fatal("pid nao registrado")
+		t.Fatal("pid não registrado")
 	}
 
 	resp, err := http.Get(endpoint + "/health")
@@ -59,7 +59,7 @@ func TestRealLlamaServer(t *testing.T) {
 		joined.WriteString(l.Text + "\n")
 	}
 	if !strings.Contains(joined.String(), "loading model") {
-		t.Errorf("logs do carregamento nao foram capturados:\n%s", joined.String())
+		t.Errorf("logs do carregamento não foram capturados:\n%s", joined.String())
 	}
 
 	if err := m.Stop(10 * time.Second); err != nil {

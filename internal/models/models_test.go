@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-// isolate impede que os diretorios reais da maquina entrem na varredura.
+// isolate impede que os diretórios reais da máquina entrem na varredura.
 func isolate(t *testing.T) {
 	t.Helper()
 	t.Setenv("LLAMA_CACHE", "")
@@ -56,10 +56,10 @@ func TestScanHFLayout(t *testing.T) {
 		t.Errorf("ID do modelo HF = %q", got)
 	}
 	if !hf.HasMTP() || !hf.HasMMProj() {
-		t.Errorf("sidecars nao detectados: mtp=%q mmproj=%q", hf.MTPPath, hf.MMProjPath)
+		t.Errorf("sidecars não detectados: mtp=%q mmproj=%q", hf.MTPPath, hf.MMProjPath)
 	}
 	if hf.Size != 1024 {
-		t.Errorf("tamanho = %d, sidecars nao devem entrar na conta", hf.Size)
+		t.Errorf("tamanho = %d, sidecars não devem entrar na conta", hf.Size)
 	}
 	if got := hf.Args(false); got[0] != "-hf" || got[1] != hf.ID() {
 		t.Errorf("Args(-hf) = %v", got)
@@ -82,7 +82,7 @@ func TestScanSplitShards(t *testing.T) {
 
 	found, _ := Scan([]string{root})
 	if len(found) != 1 {
-		t.Fatalf("shards deviam virar um unico modelo, veio %d", len(found))
+		t.Fatalf("shards deviam virar um único modelo, veio %d", len(found))
 	}
 	m := found[0]
 	if m.Size != 250 {

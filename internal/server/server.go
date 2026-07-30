@@ -1,7 +1,7 @@
 // Package server controla o ciclo de vida do processo llama-server.
 //
-// O gerenciador guarda os logs num ring buffer com numeracao continua; a TUI le
-// incrementalmente com Since, entao o processo nunca bloqueia esperando a UI.
+// O gerenciador guarda os logs num ring buffer com numeração continua; a TUI le
+// incrementalmente com Since, então o processo nunca bloqueia esperando a UI.
 package server
 
 import (
@@ -56,7 +56,7 @@ type Line struct {
 	At   time.Time
 }
 
-// StartSpec descreve uma execucao do servidor.
+// StartSpec descreve uma execução do servidor.
 type StartSpec struct {
 	Bin      string
 	Args     []string
@@ -64,7 +64,7 @@ type StartSpec struct {
 	Endpoint string
 }
 
-// State e um retrato consistente do gerenciador, seguro para renderizar.
+// State é um retrato consistente do gerenciador, seguro para renderizar.
 type State struct {
 	Status   Status
 	PID      int
@@ -82,8 +82,8 @@ func (s State) Uptime() time.Duration {
 }
 
 var (
-	ErrRunning    = errors.New("servidor ja esta rodando")
-	ErrNotRunning = errors.New("servidor nao esta rodando")
+	ErrRunning    = errors.New("servidor já está rodando")
+	ErrNotRunning = errors.New("servidor não está rodando")
 	ansiRe        = regexp.MustCompile(`\x1b\[[0-9;?]*[a-zA-Z]`)
 )
 
@@ -163,7 +163,7 @@ func (m *Manager) Clear() {
 	m.lines = nil
 }
 
-// Cursor devolve o seq atual, usado para pular o historico ja lido.
+// Cursor devolve o seq atual, usado para pular o histórico já lido.
 func (m *Manager) Cursor() int {
 	m.mu.Lock()
 	defer m.mu.Unlock()
@@ -179,7 +179,7 @@ func (m *Manager) Start(spec StartSpec) error {
 
 	cmd := exec.Command(spec.Bin, spec.Args...)
 	cmd.Env = spec.Env
-	// grupo proprio: permite derrubar filhos junto com o servidor
+	// grupo próprio: permite derrubar filhos junto com o servidor
 	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
 
 	stdout, err := cmd.StdoutPipe()
@@ -241,7 +241,7 @@ func (m *Manager) Start(spec StartSpec) error {
 			m.appendLocked("-- servidor parado --", false)
 		case code == 0 && waitErr == nil:
 			m.status = StatusStopped
-			m.appendLocked("-- servidor encerrou (codigo 0) --", false)
+			m.appendLocked("-- servidor encerrou (código 0) --", false)
 		default:
 			m.status = StatusFailed
 			m.errMsg = describeExit(code, waitErr)
@@ -254,7 +254,7 @@ func (m *Manager) Start(spec StartSpec) error {
 	return nil
 }
 
-// Stop pede o encerramento e devolve na hora; a transicao final vem pelo State.
+// Stop pede o encerramento e devolve na hora; a transição final vem pelo State.
 func (m *Manager) Stop(grace time.Duration) error {
 	m.mu.Lock()
 	r := m.cur
@@ -304,7 +304,7 @@ func (m *Manager) Restart(spec StartSpec, grace time.Duration) error {
 	return nil
 }
 
-// StopAndWait e usado na saida da TUI, quando precisamos garantir o encerramento.
+// StopAndWait é usado na saída da TUI, quando precisamos garantir o encerramento.
 func (m *Manager) StopAndWait(grace time.Duration) {
 	m.mu.Lock()
 	r := m.cur
@@ -377,7 +377,7 @@ func (m *Manager) appendLocked(text string, isErr bool) {
 
 func describeExit(code int, err error) string {
 	if code >= 0 {
-		return fmt.Sprintf("codigo %d", code)
+		return fmt.Sprintf("código %d", code)
 	}
 	if err != nil {
 		return err.Error()
@@ -385,7 +385,7 @@ func describeExit(code int, err error) string {
 	return "encerrado por sinal"
 }
 
-// scanLinesCR quebra em \n e tambem em \r, para nao acumular barras de progresso.
+// scanLinesCR quebra em \n e também em \r, para não acumular barras de progresso.
 func scanLinesCR(data []byte, atEOF bool) (int, []byte, error) {
 	if atEOF && len(data) == 0 {
 		return 0, nil, nil

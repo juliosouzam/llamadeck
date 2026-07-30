@@ -35,7 +35,7 @@ const (
 	tabCount
 )
 
-var tabNames = [tabCount]string{"Modelos", "Parametros", "Perfis", "Logs"}
+var tabNames = [tabCount]string{"Modelos", "Parâmetros", "Perfis", "Logs"}
 
 type mode int
 
@@ -70,7 +70,7 @@ type paramRow struct {
 
 type tickMsg struct{}
 
-// App e o modelo raiz da TUI.
+// App é o modelo raiz da TUI.
 type App struct {
 	cfg *config.Config
 	mgr *server.Manager
@@ -106,7 +106,7 @@ type App struct {
 	quitStop   bool
 }
 
-// New monta a aplicacao com a configuracao ja carregada do disco.
+// New monta a aplicação com a configuração já carregada do disco.
 func New(cfg *config.Config, mgr *server.Manager) *App {
 	in := textinput.New()
 	in.Prompt = ""
@@ -130,7 +130,7 @@ func New(cfg *config.Config, mgr *server.Manager) *App {
 
 func (a *App) prof() *config.Profile { return &a.cfg.Current }
 
-// StopOnExit informa se o usuario pediu para derrubar o servidor ao sair.
+// StopOnExit informa se o usuário pediu para derrubar o servidor ao sair.
 func (a *App) StopOnExit() bool { return a.quitStop }
 
 func (a *App) Init() tea.Cmd {
@@ -286,8 +286,8 @@ func (a *App) View() string {
 	return header + "\n" + fit(content, h) + "\n" + footer
 }
 
-// fit ajusta o bloco de conteudo para exatamente height linhas, para que o
-// rodape fique sempre colado no fim da tela.
+// fit ajusta o bloco de conteúdo para exatamente height linhas, para que o
+// rodapé fique sempre colado no fim da tela.
 func fit(content string, height int) string {
 	lines := strings.Split(content, "\n")
 	if len(lines) > height {
@@ -300,7 +300,7 @@ func (a *App) contentHeight() int {
 	return maxInt(3, a.height-headerHeight-footerHeight-1)
 }
 
-// ---------- cabecalho e rodape ----------
+// ---------- cabeçalho e rodapé ----------
 
 func (a *App) renderHeader() string {
 	st := a.state
@@ -398,17 +398,17 @@ func (a *App) renderFooter() string {
 	case tabModels:
 		keys = "enter selecionar · p -m/-hf · m MTP · n mmproj · r rescan · / filtrar"
 	case tabParams:
-		keys = "espaco liga/desliga · enter editar · ←/→ ciclar · d default · X desliga visiveis · / filtrar"
+		keys = "espaço liga/desliga · enter editar · ←/→ ciclar · d default · X desliga visíveis · / filtrar"
 	case tabProfiles:
-		keys = "enter carregar · s salvar como · o sobrescrever · x apagar · b binario · D dirs · e env"
+		keys = "enter carregar · s salvar como · o sobrescrever · x apagar · b binário · D dirs · e env"
 	case tabLogs:
-		keys = "f follow · g/G topo/fim · ^u/^d meia pagina · c limpar · / filtrar"
+		keys = "f follow · g/G topo/fim · ^u/^d meia página · c limpar · / filtrar"
 	}
 	global := "  ·  ^r subir/reiniciar · ^x parar · ^s salvar config · tab trocar · q sair"
 	return rule(a.width) + "\n" + a.clip(stySub.Render(keys+global))
 }
 
-// ---------- acoes ----------
+// ---------- ações ----------
 
 func (a *App) startOrRestart() {
 	p := a.prof()
@@ -418,7 +418,7 @@ func (a *App) startOrRestart() {
 		return
 	}
 	if a.cfg.Binary == "" {
-		a.notify("binario do llama-server nao configurado (aba 3, tecla b)")
+		a.notify("binário do llama-server não configurado (aba 3, tecla b)")
 		return
 	}
 	spec := server.StartSpec{
@@ -462,8 +462,8 @@ func (a *App) saveConfig() {
 	a.notify("config salva em " + config.Path())
 }
 
-// childEnv monta o ambiente do processo filho. Por padrao remove as LLAMA_ARG_*
-// para que apenas os parametros marcados na TUI valham.
+// childEnv monta o ambiente do processo filho. Por padrão remove as LLAMA_ARG_*
+// para que apenas os parâmetros marcados na TUI valham.
 func (a *App) childEnv() []string {
 	out := make([]string, 0, 64)
 	for _, kv := range os.Environ() {
@@ -544,14 +544,14 @@ func (a *App) commitInput() tea.Cmd {
 		a.notify("perfil '" + v + "' salvo")
 	case editBinary:
 		a.cfg.Binary = v
-		a.notify("binario: " + v)
+		a.notify("binário: " + v)
 	case editExtraDirs:
 		a.cfg.ExtraDirs = splitList(v)
 		a.rescan()
-		a.notify("diretorios atualizados")
+		a.notify("diretórios atualizados")
 	case editEnv:
 		a.setEnvFromString(v)
-		a.notify("variaveis de ambiente atualizadas")
+		a.notify("variáveis de ambiente atualizadas")
 	}
 
 	a.mode = modeNormal
@@ -570,7 +570,7 @@ func validate(s catalog.Spec, v string) error {
 		}
 	case catalog.KindFloat:
 		if _, err := strconv.ParseFloat(v, 64); err != nil {
-			return fmt.Errorf("%s espera um numero", s.Flag)
+			return fmt.Errorf("%s espera um número", s.Flag)
 		}
 	}
 	return nil
@@ -643,7 +643,7 @@ func fmtDuration(d time.Duration) string {
 	return fmt.Sprintf("%02d:%02d", m, s)
 }
 
-// window devolve a janela visivel de uma lista, mantendo o cursor a vista.
+// window devolve a janela visível de uma lista, mantendo o cursor a vista.
 func window(cursor, total, height int) (int, int) {
 	if height <= 0 || total == 0 {
 		return 0, 0

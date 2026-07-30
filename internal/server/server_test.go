@@ -23,7 +23,7 @@ func waitFor(t *testing.T, m *Manager, want Status, timeout time.Duration) State
 	for _, l := range lines {
 		b.WriteString(l.Text + "\n")
 	}
-	t.Fatalf("status %v nao chegou (atual %v)\nlogs:\n%s", want, st.Status, b.String())
+	t.Fatalf("status %v não chegou (atual %v)\nlogs:\n%s", want, st.Status, b.String())
 	return st
 }
 
@@ -39,7 +39,7 @@ func TestStartCaptureAndStop(t *testing.T) {
 	}
 	st := waitFor(t, m, StatusRunning, 5*time.Second)
 	if st.PID == 0 {
-		t.Error("pid nao registrado")
+		t.Error("pid não registrado")
 	}
 
 	lines, seq := m.Since(0)
@@ -48,7 +48,7 @@ func TestStartCaptureAndStop(t *testing.T) {
 		joined += l.Text + "\n"
 	}
 	if !strings.Contains(joined, "carregando") {
-		t.Errorf("stdout nao capturado: %s", joined)
+		t.Errorf("stdout não capturado: %s", joined)
 	}
 	if !strings.HasPrefix(lines[0].Text, "$ /bin/sh") {
 		t.Errorf("primeira linha deveria ser o comando, veio %q", lines[0].Text)
@@ -87,13 +87,13 @@ func TestFailedExitIsReported(t *testing.T) {
 		joined += l.Text + "\n"
 	}
 	if !strings.Contains(joined, "boom") {
-		t.Errorf("stderr nao capturado: %s", joined)
+		t.Errorf("stderr não capturado: %s", joined)
 	}
 }
 
 func TestSIGKILLFallback(t *testing.T) {
 	m := New(256)
-	// ignora SIGINT: forca o caminho do SIGKILL
+	// ignora SIGINT: força o caminho do SIGKILL
 	err := m.Start(StartSpec{Bin: "/bin/sh", Args: []string{"-c", "trap '' INT; sleep 30"}, Env: os.Environ()})
 	if err != nil {
 		t.Fatal(err)
@@ -130,7 +130,7 @@ func TestRestartReusesSpec(t *testing.T) {
 		time.Sleep(30 * time.Millisecond)
 	}
 	m.StopAndWait(time.Second)
-	t.Fatal("o restart nao subiu a nova spec")
+	t.Fatal("o restart não subiu a nova spec")
 }
 
 func TestScanLinesCRSplitsProgress(t *testing.T) {
@@ -138,7 +138,7 @@ func TestScanLinesCRSplitsProgress(t *testing.T) {
 	if err != nil || adv != 4 || string(tok) != "10%" {
 		t.Fatalf("adv=%d tok=%q err=%v", adv, tok, err)
 	}
-	// \r no fim do buffer: precisa de mais dados para saber se e \r\n
+	// \r no fim do buffer: precisa de mais dados para saber se é \r\n
 	if adv, tok, _ := scanLinesCR([]byte("abc\r"), false); adv != 0 || tok != nil {
 		t.Fatalf("esperava pedir mais dados, veio adv=%d tok=%q", adv, tok)
 	}

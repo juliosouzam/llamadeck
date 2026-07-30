@@ -1,7 +1,7 @@
-// Package models descobre os GGUF ja baixados na maquina.
+// Package models descobre os GGUF já baixados na máquina.
 //
 // A varredura cobre o layout do cache do Hugging Face usado pelo llama.cpp
-// (models--<org>--<repo>/snapshots/<sha>/*.gguf) e tambem GGUF soltos.
+// (models--<org>--<repo>/snapshots/<sha>/*.gguf) e também GGUF soltos.
 package models
 
 import (
@@ -36,7 +36,7 @@ type Model struct {
 	Root       string
 }
 
-// ID e o identificador exibido e persistido no perfil.
+// ID é o identificador exibido e persistido no perfil.
 func (m Model) ID() string {
 	if m.Source == SourceHF {
 		if m.Quant != "" {
@@ -47,7 +47,7 @@ func (m Model) ID() string {
 	return m.Path
 }
 
-// Title e o nome curto mostrado na lista.
+// Title é o nome curto mostrado na lista.
 func (m Model) Title() string {
 	if m.Source == SourceHF {
 		return m.Repo
@@ -61,7 +61,7 @@ func (m Model) HasMMProj() bool { return m.MMProjPath != "" }
 
 // Args devolve os argumentos que apontam o llama-server para este modelo.
 // Com useLocalPath o modelo do cache HF sobe por caminho absoluto, o que evita
-// qualquer acesso a rede mas desliga a busca automatica do sidecar MTP.
+// qualquer acesso a rede mas desliga a busca automática do sidecar MTP.
 func (m Model) Args(useLocalPath bool) []string {
 	if m.Source == SourceLocal || useLocalPath {
 		return []string{"-m", m.Path}
@@ -84,7 +84,7 @@ func HumanSize(n int64) string {
 	return fmt.Sprintf("%.1f %ciB", float64(n)/float64(div), "KMGTP"[exp])
 }
 
-// Roots devolve os diretorios varridos, na ordem de precedencia.
+// Roots devolve os diretórios varridos, na ordem de precedência.
 func Roots(extra []string) []string {
 	var out []string
 	seen := map[string]bool{}
@@ -189,7 +189,7 @@ func collectGGUF(root string) ([]ggufFile, error) {
 			return nil
 		}
 		if d.IsDir() {
-			// blobs guarda os arquivos reais por hash, os snapshots ja apontam para la
+			// blobs guarda os arquivos reais por hash, os snapshots já apontam para lá
 			if d.Name() == "blobs" || d.Name() == "refs" {
 				return fs.SkipDir
 			}
@@ -215,7 +215,7 @@ func collectGGUF(root string) ([]ggufFile, error) {
 }
 
 func classify(root string, files []ggufFile) []Model {
-	// agrupa por diretorio: num snapshot HF os sidecars ficam ao lado do modelo
+	// agrupa por diretório: num snapshot HF os sidecars ficam ao lado do modelo
 	byDir := map[string][]ggufFile{}
 	for _, f := range files {
 		dir := filepath.Dir(f.path)
@@ -247,7 +247,7 @@ func classify(root string, files []ggufFile) []Model {
 			if m := shardRe.FindStringSubmatch(base); m != nil {
 				stem = strings.TrimSuffix(base, m[0])
 				if m[1] != "00001" {
-					shard = 0 // shard secundario: soma o tamanho mas nao vira entrada
+					shard = 0 // shard secundário: soma o tamanho mas não vira entrada
 				}
 			}
 			sizes[stem] += f.size
@@ -275,7 +275,7 @@ func classify(root string, files []ggufFile) []Model {
 				m.Repo = repo
 			} else {
 				m.Source = SourceLocal
-				m.MTPPath = "" // fora do layout HF o sidecar nao e resolvido pelo -hf
+				m.MTPPath = "" // fora do layout HF o sidecar não é resolvido pelo -hf
 			}
 			out = append(out, m)
 		}

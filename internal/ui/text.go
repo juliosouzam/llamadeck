@@ -11,7 +11,7 @@ type lipglossStyle = lipgloss.Style
 
 func itoa(n int) string { return strconv.Itoa(n) }
 
-// wrapText quebra o texto em linhas de no maximo w celulas, sem cortar runas.
+// wrapText quebra o texto em linhas de no máximo w celulas, sem cortar runas.
 func wrapText(s string, w int) []string {
 	s = strings.ReplaceAll(s, "\t", "    ")
 	if w <= 0 {
@@ -24,7 +24,7 @@ func wrapText(s string, w int) []string {
 	out := make([]string, 0, len(runes)/w+1)
 	for len(runes) > w {
 		cut := w
-		// tenta quebrar no ultimo espaco da linha para nao picar palavras
+		// tenta quebrar no último espaço da linha para não picar palavras
 		for i := w; i > w*2/3 && i > 0; i-- {
 			if runes[i-1] == ' ' {
 				cut = i

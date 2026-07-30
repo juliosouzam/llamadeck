@@ -1,4 +1,4 @@
-// Command llamadeck e uma TUI para configurar e operar o llama-server.
+// Command llamadeck é uma TUI para configurar e operar o llama-server.
 package main
 
 import (
@@ -22,7 +22,7 @@ func main() {
 		profileName = flag.String("profile", "", "carrega um perfil salvo antes de abrir a TUI")
 		printCmd    = flag.Bool("print", false, "imprime o comando do llama-server e sai")
 		listModels  = flag.Bool("list-models", false, "lista os modelos encontrados e sai")
-		showVersion = flag.Bool("version", false, "mostra a versao e sai")
+		showVersion = flag.Bool("version", false, "mostra a versão e sai")
 	)
 	flag.Parse()
 
@@ -39,7 +39,7 @@ func main() {
 	if *profileName != "" {
 		i := cfg.FindProfile(*profileName)
 		if i < 0 {
-			fmt.Fprintf(os.Stderr, "perfil %q nao encontrado\n", *profileName)
+			fmt.Fprintf(os.Stderr, "perfil %q não encontrado\n", *profileName)
 			os.Exit(1)
 		}
 		cfg.Current = cfg.Profiles[i].Clone()
@@ -71,7 +71,7 @@ func main() {
 	mgr := server.New(8000)
 	app := ui.New(cfg, mgr)
 
-	// sem mouse tracking: preserva a selecao de texto do terminal para copiar logs
+	// sem mouse tracking: preserva a seleção de texto do terminal para copiar logs
 	p := tea.NewProgram(app, tea.WithAltScreen())
 	if _, err := p.Run(); err != nil {
 		fmt.Fprintln(os.Stderr, "erro na TUI:", err)
@@ -89,6 +89,6 @@ func main() {
 	}
 
 	if err := cfg.Save(); err != nil {
-		fmt.Fprintln(os.Stderr, "aviso: nao consegui salvar a config:", err)
+		fmt.Fprintln(os.Stderr, "aviso: não consegui salvar a config:", err)
 	}
 }

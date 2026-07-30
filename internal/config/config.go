@@ -1,4 +1,4 @@
-// Package config persiste os perfis de execucao do llama-server.
+// Package config persiste os perfis de execução do llama-server.
 package config
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/juliosouzam/llamadeck/internal/catalog"
 )
 
-// ParamValue e o estado de um parametro no perfil.
+// ParamValue é o estado de um parâmetro no perfil.
 type ParamValue struct {
 	Enabled bool   `json:"enabled"`
 	Value   string `json:"value,omitempty"`
@@ -40,7 +40,7 @@ func (r ModelRef) ID() string {
 	return r.Path
 }
 
-// Args devolve -hf ou -m conforme a preferencia gravada no perfil.
+// Args devolve -hf ou -m conforme a preferência gravada no perfil.
 func (r ModelRef) Args() []string {
 	if r.Repo != "" && !r.UseLocalPath {
 		return []string{"-hf", r.ID()}
@@ -54,7 +54,7 @@ func (r ModelRef) Args() []string {
 	return nil
 }
 
-// Profile e um conjunto nomeado de modelo + parametros.
+// Profile é um conjunto nomeado de modelo + parâmetros.
 type Profile struct {
 	Name   string                `json:"name"`
 	Model  ModelRef              `json:"model"`
@@ -92,7 +92,7 @@ func (p Profile) Args() []string {
 	return args
 }
 
-// Endpoint devolve a URL usada no health check e mostrada no cabecalho.
+// Endpoint devolve a URL usada no health check e mostrada no cabeçalho.
 func (p Profile) Endpoint() string {
 	host := "127.0.0.1"
 	port := "8080"
@@ -137,7 +137,7 @@ type Config struct {
 	Binary    string   `json:"binary"`
 	ExtraDirs []string `json:"extra_dirs,omitempty"`
 	// KeepArgEnv repassa as LLAMA_ARG_* do shell para o servidor. Desligado por
-	// padrao para que so os parametros marcados na TUI tenham efeito.
+	// padrão para que só os parâmetros marcados na TUI tenham efeito.
 	KeepArgEnv bool      `json:"keep_arg_env,omitempty"`
 	Current    Profile   `json:"current"`
 	Profiles   []Profile `json:"profiles"`
@@ -199,7 +199,7 @@ func Default() *Config {
 	}
 }
 
-// Load le a configuracao do disco. Um arquivo ausente devolve os defaults.
+// Load le a configuração do disco. Um arquivo ausente devolve os defaults.
 func Load() (*Config, error) {
 	data, err := os.ReadFile(Path())
 	if errors.Is(err, os.ErrNotExist) {
@@ -210,7 +210,7 @@ func Load() (*Config, error) {
 	}
 	cfg := Default()
 	if err := json.Unmarshal(data, cfg); err != nil {
-		return Default(), fmt.Errorf("config invalida em %s: %w", Path(), err)
+		return Default(), fmt.Errorf("config inválida em %s: %w", Path(), err)
 	}
 	if cfg.Binary == "" {
 		cfg.Binary = DefaultBinary()
@@ -242,7 +242,7 @@ func (c *Config) Save() error {
 	return os.Rename(tmp, p)
 }
 
-// FindProfile devolve o indice do perfil com o nome dado, ou -1.
+// FindProfile devolve o índice do perfil com o nome dado, ou -1.
 func (c *Config) FindProfile(name string) int {
 	for i, p := range c.Profiles {
 		if strings.EqualFold(p.Name, name) {

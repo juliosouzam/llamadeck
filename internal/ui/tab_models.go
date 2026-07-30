@@ -40,7 +40,7 @@ func (a *App) findModel(ref config.ModelRef) (models.Model, bool) {
 	return models.Model{}, false
 }
 
-// syncModelCursor posiciona o cursor no modelo ja gravado no perfil.
+// syncModelCursor posiciona o cursor no modelo já gravado no perfil.
 func (a *App) syncModelCursor() {
 	ref := a.prof().Model
 	if ref.Empty() {
@@ -94,13 +94,13 @@ func (a *App) keyModels(msg tea.KeyMsg) tea.Cmd {
 	case "p":
 		ref := a.prof().Model
 		if ref.Repo == "" {
-			a.notify("modelo local ja sobe por caminho (-m)")
+			a.notify("modelo local já sobe por caminho (-m)")
 			break
 		}
 		ref.UseLocalPath = !ref.UseLocalPath
 		a.prof().Model = ref
 		if ref.UseLocalPath {
-			a.notify("usando -m (caminho local, sem rede e sem sidecar MTP automatico)")
+			a.notify("usando -m (caminho local, sem rede e sem sidecar MTP automático)")
 		} else {
 			a.notify("usando -hf (resolve sidecar MTP do repo)")
 		}
@@ -112,7 +112,7 @@ func (a *App) keyModels(msg tea.KeyMsg) tea.Cmd {
 	return nil
 }
 
-// toggleParam alterna um parametro entre dois valores, deixando-o sempre ativo.
+// toggleParam alterna um parâmetro entre dois valores, deixando-o sempre ativo.
 func (a *App) toggleParam(id, on, off string) {
 	p := a.prof()
 	cur, ok := p.Params[id]
@@ -130,7 +130,7 @@ func (a *App) viewModels(height int) string {
 	list := a.filteredModels()
 	lines := make([]string, 0, height)
 
-	head := stySub.Render("origem: LLAMA_CACHE, LLAMA_MODELS e diretorios extras · " +
+	head := stySub.Render("origem: LLAMA_CACHE, LLAMA_MODELS e diretórios extras · " +
 		strings.Join(shortRoots(a.cfg.ExtraDirs), ", "))
 	lines = append(lines, a.clip(head))
 
@@ -148,7 +148,7 @@ func (a *App) viewModels(height int) string {
 	if a.modelCursor >= len(list) {
 		a.modelCursor = len(list) - 1
 	}
-	// reserva o rodape do painel: linha em branco, caminho do gguf e sidecar MTP
+	// reserva o rodapé do painel: linha em branco, caminho do gguf e sidecar MTP
 	avail := maxInt(1, height-len(lines)-3)
 	start, end := window(a.modelCursor, len(list), avail)
 	ref := a.prof().Model
@@ -204,7 +204,7 @@ func shortRoots(extra []string) []string {
 		out = append(out, r)
 	}
 	if len(out) == 0 {
-		return []string{"(nenhum diretorio encontrado)"}
+		return []string{"(nenhum diretório encontrado)"}
 	}
 	return out
 }

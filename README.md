@@ -7,7 +7,7 @@ subir o servidor, acompanhar os logs ao vivo, parar e reiniciar.
 ```
 llamadeck  ● rodando  pid 41233  up 00:03:21  http://127.0.0.1:8080
 modelo  ggml-org/gemma-4-26B-A4B-it-GGUF:Q4_0  13.6 GiB  MTP  via -hf  spec=draft-mtp
- 1 Modelos │ 2 Parametros │ 3 Perfis │ 4 Logs
+ 1 Modelos │ 2 Parâmetros │ 3 Perfis │ 4 Logs
 ──────────────────────────────────────────────────────────────────────────────
 comando
   llama-server -hf ggml-org/gemma-4-26B-A4B-it-GGUF:Q4_0 --host 127.0.0.1

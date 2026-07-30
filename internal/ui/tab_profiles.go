@@ -47,15 +47,15 @@ func (a *App) keyProfiles(msg tea.KeyMsg) tea.Cmd {
 	case "b":
 		a.startEdit(editState{kind: editBinary, label: "caminho do llama-server"}, a.cfg.Binary)
 	case "D":
-		a.startEdit(editState{kind: editExtraDirs, label: "diretorios extras (virgula)"}, strings.Join(a.cfg.ExtraDirs, ", "))
+		a.startEdit(editState{kind: editExtraDirs, label: "diretórios extras (vírgula)"}, strings.Join(a.cfg.ExtraDirs, ", "))
 	case "e":
-		a.startEdit(editState{kind: editEnv, label: "env do processo (K=V, virgula)"}, strings.Join(a.prof().EnvPairs(), ", "))
+		a.startEdit(editState{kind: editEnv, label: "env do processo (K=V, vírgula)"}, strings.Join(a.prof().EnvPairs(), ", "))
 	case "E":
 		a.cfg.KeepArgEnv = !a.cfg.KeepArgEnv
 		if a.cfg.KeepArgEnv {
-			a.notify("LLAMA_ARG_* do shell serao repassados ao servidor")
+			a.notify("LLAMA_ARG_* do shell serão repassados ao servidor")
 		} else {
-			a.notify("LLAMA_ARG_* do shell serao removidos do servidor")
+			a.notify("LLAMA_ARG_* do shell serão removidos do servidor")
 		}
 	}
 	return nil
@@ -76,7 +76,7 @@ func (a *App) viewProfiles(height int) string {
 
 	lines = append(lines,
 		a.clip(styGroup.Render("▪ Ajustes")),
-		a.clip("  "+padTo(styMuted.Render("binario"), 24)+styValue.Render(a.cfg.Binary)+stySub.Render("   (b)")),
+		a.clip("  "+padTo(styMuted.Render("binário"), 24)+styValue.Render(a.cfg.Binary)+stySub.Render("   (b)")),
 		a.clip("  "+padTo(styMuted.Render("dirs extras"), 24)+styValue.Render(orDash(strings.Join(a.cfg.ExtraDirs, ", ")))+stySub.Render("   (D)")),
 		a.clip("  "+padTo(styMuted.Render("env do perfil"), 24)+envStr+stySub.Render("   (e)")),
 		a.clip("  "+padTo(styMuted.Render("LLAMA_ARG_* do shell"), 24)+argEnv+stySub.Render("   (E)")),
@@ -106,7 +106,7 @@ func (a *App) viewProfiles(height int) string {
 				enabled++
 			}
 		}
-		info := stySub.Render(p.Model.ID() + "  ·  " + itoa(enabled) + " parametros")
+		info := stySub.Render(p.Model.ID() + "  ·  " + itoa(enabled) + " parâmetros")
 		lines = append(lines, a.clip(cursor+padTo(name, 22)+info))
 	}
 	return strings.Join(lines, "\n")

@@ -44,7 +44,7 @@ func specMatches(s catalog.Spec, f string) bool {
 	return true
 }
 
-// snapParamCursor move o cursor para a proxima linha que nao seja cabecalho.
+// snapParamCursor move o cursor para a próxima linha que não seja cabeçalho.
 func (a *App) snapParamCursor(dir int) {
 	if len(a.paramRows) == 0 {
 		a.paramCursor = 0
@@ -174,7 +174,7 @@ func (a *App) keyParams(msg tea.KeyMsg) tea.Cmd {
 				n++
 			}
 		}
-		a.notify(strings.TrimSpace(itoa(n) + " parametros desativados"))
+		a.notify(strings.TrimSpace(itoa(n) + " parâmetros desativados"))
 	}
 	return nil
 }
@@ -193,7 +193,7 @@ func (a *App) viewParams(height int) string {
 	head = append(head, rule(a.width))
 	if a.paramFilter != "" {
 		head = append(head, a.clip(styMuted.Render("filtro: ")+styValue.Render(a.paramFilter)+
-			stySub.Render("  ("+itoa(a.countParamRows())+" parametros)")))
+			stySub.Render("  ("+itoa(a.countParamRows())+" parâmetros)")))
 	}
 
 	var foot []string

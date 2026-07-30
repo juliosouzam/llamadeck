@@ -54,7 +54,7 @@ func press(a *App, keys ...string) {
 	}
 }
 
-// newTestApp isola HOME e o cache de modelos num diretorio temporario.
+// newTestApp isola HOME e o cache de modelos num diretório temporário.
 func newTestApp(t *testing.T) (*App, *server.Manager) {
 	t.Helper()
 	home := t.TempDir()
@@ -87,7 +87,7 @@ func TestModelSelectionAndMTPToggle(t *testing.T) {
 		t.Fatalf("esperava 1 modelo, veio %d: %+v", len(a.models), a.models)
 	}
 	if !a.models[0].HasMTP() {
-		t.Fatal("sidecar MTP nao detectado")
+		t.Fatal("sidecar MTP não detectado")
 	}
 
 	press(a, "enter")
@@ -100,7 +100,7 @@ func TestModelSelectionAndMTPToggle(t *testing.T) {
 
 	press(a, "p") // alterna para caminho local
 	if !strings.Contains(strings.Join(a.prof().Args(), " "), "-m ") {
-		t.Errorf("apos 'p' deveria usar -m: %v", a.prof().Args())
+		t.Errorf("após 'p' deveria usar -m: %v", a.prof().Args())
 	}
 	press(a, "p")
 
@@ -120,40 +120,40 @@ func TestModelSelectionAndMTPToggle(t *testing.T) {
 
 	view := a.View()
 	if !strings.Contains(view, "llamadeck") || !strings.Contains(view, "Modelos") {
-		t.Errorf("cabecalho ausente na view:\n%s", view)
+		t.Errorf("cabeçalho ausente na view:\n%s", view)
 	}
 }
 
 func TestParamsFilterToggleAndEdit(t *testing.T) {
 	a, _ := newTestApp(t)
-	press(a, "2") // aba de parametros
+	press(a, "2") // aba de parâmetros
 
 	press(a, "/")
 	typeString(a, "ctx-size")
 	press(a, "enter")
 
 	if n := a.countParamRows(); n == 0 || n > 3 {
-		t.Fatalf("filtro devolveu %d parametros, esperava poucos", n)
+		t.Fatalf("filtro devolveu %d parâmetros, esperava poucos", n)
 	}
 	s, ok := a.currentSpec()
 	if !ok || s.ID != "ctx-size" {
 		t.Fatalf("cursor parou em %+v (ok=%v)", s, ok)
 	}
 
-	press(a, " ") // desliga (o default ja vem ligado)
+	press(a, " ") // desliga (o default já vem ligado)
 	if a.prof().Params["ctx-size"].Enabled {
-		t.Error("espaco deveria desligar o parametro")
+		t.Error("espaço deveria desligar o parâmetro")
 	}
 	press(a, " ")
 	if !a.prof().Params["ctx-size"].Enabled {
-		t.Error("espaco deveria religar o parametro")
+		t.Error("espaço deveria religar o parâmetro")
 	}
 
 	press(a, "enter") // abre o editor de valor
 	if a.mode != modeEdit {
-		t.Fatal("enter num parametro numerico deveria abrir o editor")
+		t.Fatal("enter num parâmetro numérico deveria abrir o editor")
 	}
-	a.input.SetValue("nao-e-numero")
+	a.input.SetValue("não-é-número")
 	press(a, "enter")
 	if a.mode != modeEdit {
 		t.Error("valor invalido deveria manter o editor aberto")
@@ -167,7 +167,7 @@ func TestParamsFilterToggleAndEdit(t *testing.T) {
 		t.Errorf("valor gravado = %q", got)
 	}
 	if !strings.Contains(strings.Join(a.prof().Args(), " "), "--ctx-size 65536") {
-		t.Errorf("comando nao refletiu a edicao: %v", a.prof().Args())
+		t.Errorf("comando não refletiu a edição: %v", a.prof().Args())
 	}
 
 	press(a, "d") // volta ao default
@@ -225,20 +225,20 @@ func TestStartStopFlow(t *testing.T) {
 
 	view := a.View()
 	if !strings.Contains(view, "rodando") {
-		t.Errorf("view nao mostra o status:\n%s", view)
+		t.Errorf("view não mostra o status:\n%s", view)
 	}
 	if !strings.Contains(view, "argumentos: -hf") {
-		t.Errorf("logs do processo nao apareceram:\n%s", view)
+		t.Errorf("logs do processo não apareceram:\n%s", view)
 	}
 
-	// sair com o servidor ativo pede confirmacao
+	// sair com o servidor ativo pede confirmação
 	press(a, "q")
 	if a.mode != modeConfirmQuit {
-		t.Fatal("sair com servidor ativo deveria pedir confirmacao")
+		t.Fatal("sair com servidor ativo deveria pedir confirmação")
 	}
 	press(a, "esc")
 	if a.mode != modeNormal {
-		t.Fatal("esc deveria cancelar a saida")
+		t.Fatal("esc deveria cancelar a saída")
 	}
 
 	press(a, "ctrl+x")
@@ -252,7 +252,7 @@ func TestStartStopFlow(t *testing.T) {
 	}
 	if a.state.Status != server.StatusStopped {
 		mgr.StopAndWait(time.Second)
-		t.Fatalf("status apos ^x = %v", a.state.Status)
+		t.Fatalf("status após ^x = %v", a.state.Status)
 	}
 }
 
@@ -260,13 +260,13 @@ func TestStartWithoutModelIsRefused(t *testing.T) {
 	a, _ := newTestApp(t)
 	press(a, "ctrl+r")
 	if a.state.Status.Active() {
-		t.Fatal("nao deveria subir sem modelo")
+		t.Fatal("não deveria subir sem modelo")
 	}
 	if !strings.Contains(a.toast, "selecione um modelo") {
 		t.Errorf("toast = %q", a.toast)
 	}
 	if a.tab != tabModels {
-		t.Error("deveria levar o usuario para a aba de modelos")
+		t.Error("deveria levar o usuário para a aba de modelos")
 	}
 }
 
@@ -302,13 +302,13 @@ func TestViewsRenderInEveryTab(t *testing.T) {
 			t.Fatalf("aba %s renderizou vazio", tab)
 		}
 		lines := strings.Split(out, "\n")
-		// altura fixa: o rodape precisa ficar colado no fim da tela de 40 linhas
+		// altura fixa: o rodapé precisa ficar colado no fim da tela de 40 linhas
 		if len(lines) != 39 {
 			t.Errorf("aba %s renderizou %d linhas, esperava 39", tab, len(lines))
 		}
 		if !strings.Contains(lines[len(lines)-1], "subir/reiniciar") &&
 			!strings.Contains(lines[len(lines)-1], a.toast) {
-			t.Errorf("aba %s: ultima linha deveria ser o rodape, veio %q", tab, lines[len(lines)-1])
+			t.Errorf("aba %s: ultima linha deveria ser o rodapé, veio %q", tab, lines[len(lines)-1])
 		}
 		for i, line := range lines {
 			if w := lineWidth(line); w > 120 {
@@ -333,7 +333,7 @@ func mustSpec(t *testing.T, a *App) catalog.Spec {
 	t.Helper()
 	s, ok := a.currentSpec()
 	if !ok {
-		t.Fatal("cursor nao esta sobre um parametro")
+		t.Fatal("cursor não está sobre um parâmetro")
 	}
 	return s
 }
