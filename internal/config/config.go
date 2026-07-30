@@ -11,7 +11,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/juliocesar/llamadeck/internal/catalog"
+	"github.com/juliosouzam/llamadeck/internal/catalog"
 )
 
 // ParamValue e o estado de um parametro no perfil.

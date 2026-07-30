@@ -5,8 +5,8 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/juliocesar/llamadeck/internal/catalog"
-	"github.com/juliocesar/llamadeck/internal/config"
+	"github.com/juliosouzam/llamadeck/internal/catalog"
+	"github.com/juliosouzam/llamadeck/internal/config"
 )
 
 func catalogLookup(id string) (catalog.Spec, bool) { return catalog.Lookup(id) }

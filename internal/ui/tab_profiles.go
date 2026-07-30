@@ -5,7 +5,7 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/juliocesar/llamadeck/internal/config"
+	"github.com/juliosouzam/llamadeck/internal/config"
 )
 
 func (a *App) keyProfiles(msg tea.KeyMsg) tea.Cmd {

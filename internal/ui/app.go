@@ -13,10 +13,10 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/x/ansi"
 
-	"github.com/juliocesar/llamadeck/internal/catalog"
-	"github.com/juliocesar/llamadeck/internal/config"
-	"github.com/juliocesar/llamadeck/internal/models"
-	"github.com/juliocesar/llamadeck/internal/server"
+	"github.com/juliosouzam/llamadeck/internal/catalog"
+	"github.com/juliosouzam/llamadeck/internal/config"
+	"github.com/juliosouzam/llamadeck/internal/models"
+	"github.com/juliosouzam/llamadeck/internal/server"
 )
 
 const (

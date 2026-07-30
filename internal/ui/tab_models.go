@@ -5,8 +5,8 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/juliocesar/llamadeck/internal/config"
-	"github.com/juliocesar/llamadeck/internal/models"
+	"github.com/juliosouzam/llamadeck/internal/config"
+	"github.com/juliosouzam/llamadeck/internal/models"
 )
 
 func (a *App) rescan() {

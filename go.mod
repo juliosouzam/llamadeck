@@ -1,4 +1,4 @@
-module github.com/juliocesar/llamadeck
+module github.com/juliosouzam/llamadeck
 
 go 1.26.5
 

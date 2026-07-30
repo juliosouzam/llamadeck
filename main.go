@@ -9,10 +9,10 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/juliocesar/llamadeck/internal/config"
-	"github.com/juliocesar/llamadeck/internal/models"
-	"github.com/juliocesar/llamadeck/internal/server"
-	"github.com/juliocesar/llamadeck/internal/ui"
+	"github.com/juliosouzam/llamadeck/internal/config"
+	"github.com/juliosouzam/llamadeck/internal/models"
+	"github.com/juliosouzam/llamadeck/internal/server"
+	"github.com/juliosouzam/llamadeck/internal/ui"
 )
 
 const version = "0.1.0"
